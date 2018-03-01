@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+</head>
+<style>
+    .banner-container{
+        width: 100%;
+        height: 486px;
+        overflow: hidden;
+        position: relative;
+        background-color: #1F5D9E;
+
+    }
+    .banner-img-container{
+        width: 100%;
+        height: 486px;
+        overflow: hidden;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+
+    }
+    .banner-img{
+        width: 100%;
+        height: 486px;
+        overflow: hidden;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: none;
+
+    }
+    .sc_point{
+        width: 151px;
+        height: 28px;
+        position: absolute;
+        margin-left: -62px;
+        bottom: 30px;
+        left: 50%;
+        background: no-repeat
+        url("../pointer-backgro.png");
+
+    }
+
+    .pointer{
+        width: 12px;
+        height: 12px;
+        margin: 7px 0px 7px 15px;
+        float: left;
+        cursor: pointer;
+        display: block;
+        background: no-repeat url("../non-point.png");
+    }
+</style>
+<body>
+<div class = "banner-container">
+    <div class="banner-img-container">
+        <div class="banner-img"><img src="../1.jpg"/></div>
+        <div class="banner-img"><img src="../2.jpg"/></div>
+        <div class="banner-img"><img src="../3.jpg"/></div>
+        <div class="banner-img"><img src="../4.jpg"/></div>
+        <div class="banner-img"><img src="../5.jpg"/></div>
+    </div>
+    <div class="sc_point">
+        <div class="pointer" data-index="0"></div>
+        <div class="pointer" data-index="1"></div>
+        <div class="pointer" data-index="2"></div>
+        <div class="pointer" data-index="3"></div>
+        <div class="pointer" data-index="4"></div>
+
+    </div>
+</div>
+
+
+</body>
+<script>
+  var banner_img =document.getElementsByClassName("banner-img");
+  var banner_pointer=document.getElementsByClassName("pointer");
+
+  const  timeout = 3000;
+  var bannerItem =0;
+   function  playBanner(){
+      bannerLoop(bannerItem);
+      bannerItem++;
+
+       if(bannerItem===5){
+           bannerItem=0;
+       }
+
+    }
+ //循环给圆点绑定单击事件。
+for(var i =0;i<banner_pointer.length;i++) banner_pointer[i].addEventListener("click",changeBanner,false)
+  //单击事件
+function changeBanner(event) {
+    clearInterval(t);
+    var pointer = parseInt(event.target.getAttribute("data-index"));
+    bannerLoop(pointer);
+    playBanner()
+    t = setInterval(playBanner,timeout);
+}
+
+function bannerLoop(pointer) {
+    if(bannerItem!==0){
+        banner_pointer[bannerItem-1].style.background="url(\"../non-point.png\")";
+        banner_pointer[pointer].style.background="url(\"../pointer.png\")";
+        banner_img[bannerItem-1].style.display = "none";
+        banner_img[pointer].style.display = "block";
+
+    }
+    else{
+        banner_pointer[4].style.background="url(\"../non-point.png\")";
+        banner_pointer[pointer].style.background="url(\"../pointer.png\")";
+        banner_img[4].style.display = "none";
+        banner_img[pointer].style.display = "block";
+
+    }
+    bannerItem = pointer;
+}
+  var t;
+  playBanner();
+  t =setInterval(playBanner,timeout);
+</script>
+</html>
